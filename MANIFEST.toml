@@ -1,0 +1,12 @@
+uuid = "2eb74c03-a488-4ffc-814d-20661782de95"
+name = "Format Performer Tags"
+authors = ["Bob Swift, Philipp Wolfer"]
+description = "This plugin provides options with respect to the formatting of performer tags."
+api = ['3.0']
+homepage = "https://picard-plugins-user-guides.readthedocs.io/en/latest/format_performer_tags/user_guide.html"
+license = "GPL-2.0-or-later"
+license_url = "https://www.gnu.org/licenses/gpl-2.0.html"
+long_description = """
+This plugin provides options with respect to the formatting of performer tags. The format of
+the resulting tags can be customized by the settings in the options page.
+"""
