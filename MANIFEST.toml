@@ -3,6 +3,7 @@ name = "Format Performer Tags"
 authors = ["Bob Swift, Philipp Wolfer"]
 description = "This plugin provides options with respect to the formatting of performer tags."
 api = ['3.0']
+categories = ["metadata"]
 homepage = "https://picard-plugins-user-guides.readthedocs.io/en/latest/format_performer_tags/user_guide.html"
 license = "GPL-2.0-or-later"
 license_url = "https://www.gnu.org/licenses/gpl-2.0.html"

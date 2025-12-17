@@ -452,6 +452,5 @@ def enable(api: PluginApi):
 
     plugin = FormatPerformerTags(api)
 
-    # Register the plugin to run at a LOW priority.
-    api.register_track_metadata_processor(plugin.format_performer_tags, priority=-100)
+    api.register_track_metadata_processor(plugin.format_performer_tags)
     api.register_options_page(FormatPerformerTagsOptionsPage)
