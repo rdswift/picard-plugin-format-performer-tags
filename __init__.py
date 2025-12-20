@@ -20,6 +20,7 @@
 
 import re
 
+from picard.config import get_config
 from picard.plugin3.api import (
     Metadata,
     OptionsPage,
@@ -431,7 +432,6 @@ class FormatPerformerTagsOptionsPage(OptionsPage):
 
 def enable(api: PluginApi):
     """Called when plugin is enabled."""
-
     # Register plugin options with their default values.
     api.plugin_config.register_option("format_group_additional", 3)
     api.plugin_config.register_option("format_group_guest", 4)
@@ -450,7 +450,44 @@ def enable(api: PluginApi):
     api.plugin_config.register_option("format_group_4_end_char", ')')
     api.plugin_config.register_option("format_group_4_sep_char", '')
 
+    # Migrate settings from 2.x version if available
+    migrate_settings(api)
+
     plugin = FormatPerformerTags(api)
 
     api.register_track_metadata_processor(plugin.format_performer_tags)
     api.register_options_page(FormatPerformerTagsOptionsPage)
+
+
+def migrate_settings(api: PluginApi):
+    cfg = get_config()
+    if cfg.setting.raw_value("format_group_additional") is None:
+        return
+
+    api.logger.info("Migrating settings from 2.x version.")
+
+    mapping = [
+        ("format_group_additional", int),
+        ("format_group_guest", int),
+        ("format_group_solo", int),
+        ("format_group_vocals", int),
+        ("format_group_1_start_char", str),
+        ("format_group_1_end_char", str),
+        ("format_group_1_sep_char", str),
+        ("format_group_2_start_char", str),
+        ("format_group_2_end_char", str),
+        ("format_group_2_sep_char", str),
+        ("format_group_3_start_char", str),
+        ("format_group_3_end_char", str),
+        ("format_group_3_sep_char", str),
+        ("format_group_4_start_char", str),
+        ("format_group_4_end_char", str),
+        ("format_group_4_sep_char", str),
+    ]
+
+    for key, qtype in mapping:
+        if cfg.setting.raw_value(key) is None:
+            api.logger.debug("No old setting for key: '%s'", key,)
+            continue
+        api.plugin_config[key] = cfg.setting.raw_value(key, qtype=qtype)
+        cfg.setting.remove(key)
