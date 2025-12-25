@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2018 Bob Swift (rdswift)
+# Copyright (C) 2018, 2025 Bob Swift (rdswift)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -135,111 +135,14 @@ class FormatPerformerTags:
 class FormatPerformerTagsOptionsPage(OptionsPage):
 
     TITLE = t_("ui.options_page_title", "Format Performer Tags")
+    HELP_URL = USER_GUIDE_URL
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.ui = Ui_FormatPerformerTagsOptionsPage()
         self.ui.setupUi(self)
-
-        self._add_translations()
         self._add_connections()
-
         self.processor = FormatPerformerTags(self.api)
-
-    def _add_translations(self):
-
-        start_bold = '<span style="font-weight:600;">'
-        end_bold = '</span>'
-
-        blank = self.api.tr("ui.blank", "(blank)")
-        keyword = self.api.tr("ui.keyword", "Keyword: {word}")
-
-        self.setWindowTitle("Form")
-        self.ui.gb_description.setTitle(self.api.tr("ui.gb_description", "Format Performer Tags"))
-        self.ui.format_description.setText(
-            "<html><head/><body><p>"
-            + self.api.tr(
-                "ui.format_description_p1",
-                (
-                    "These settings will determine the format for any {start_bold}Performer{end_bold} "
-                    "tags prepared. The format is divided into six parts: the performer; the instrument or vocals; and four user "
-                    "selectable sections for the extra information. This is set out as:"
-                )
-            ).format(start_bold=start_bold, end_bold=end_bold)
-            + "</p><p align=\"center\">"
-            + self.api.tr(
-                "ui.format_description_p2",
-                "{start_bold}[1]{end_bold}Instrument/Vocals{start_bold}[2][3]{end_bold}: Performer{start_bold}[4]{end_bold}"
-            ).format(start_bold=start_bold, end_bold=end_bold)
-            + "</p><p>"
-            + self.api.tr(
-                "ui.format_description_p3",
-                "You can select the section in which each of the extra information words appears."
-            )
-            + "</p><p>"
-            + self.api.tr(
-                "ui.format_description_p4",
-                (
-                    "For each of the sections you can select the starting characters, the characters separating entries, and the ending "
-                    "characters. Note that leading or trailing spaces must be included in the settings and will not be automatically added. "
-                    "If no separator characters are entered, the items within a section will be automatically separated by a single space."
-                )
-            )
-            + "</p><p>"
-            + self.api.tr(
-                "ui.format_description_p5",
-                "Please see the {start_link}User Guide{end_link} for additional information."
-            ).format(start_link=f'<a href="{USER_GUIDE_URL}"><span style="text-decoration: underline; color:#0000ff;">', end_link="</span></a>")
-            + "</p></body></html>"
-        )
-        self.ui.gb_word_groups.setTitle(self.api.tr("ui.gb_word_groups", "Keyword Sections Assignment"))
-        self.ui.group_additonal.setTitle(keyword.format(word="additional"))
-        self.ui.additional_rb_1.setText("1")
-        self.ui.additional_rb_2.setText("2")
-        self.ui.additional_rb_3.setText("3")
-        self.ui.additional_rb_4.setText("4")
-        self.ui.group_guest.setTitle(keyword.format(word="guest"))
-        self.ui.guest_rb_1.setText("1")
-        self.ui.guest_rb_2.setText("2")
-        self.ui.guest_rb_3.setText("3")
-        self.ui.guest_rb_4.setText("4")
-        self.ui.group_solo.setTitle(keyword.format(word="solo"))
-        self.ui.solo_rb_1.setText("1")
-        self.ui.solo_rb_2.setText("2")
-        self.ui.solo_rb_3.setText("3")
-        self.ui.solo_rb_4.setText("4")
-        self.ui.group_vocals.setTitle(self.api.tr("ui.group_vocals", "All vocal type keywords"))
-        self.ui.vocals_rb_1.setText("1")
-        self.ui.vocals_rb_2.setText("2")
-        self.ui.vocals_rb_3.setText("3")
-        self.ui.vocals_rb_4.setText("4")
-        self.ui.gb_group_settings.setTitle(self.api.tr("ui.gb_group_settings", "Section Display Settings"))
-        self.ui.label_1.setText(self.api.tr("ui.label_1", "Section 1"))
-        self.ui.label_2.setText(self.api.tr("ui.label_2", "Section 2"))
-        self.ui.label_3.setText(self.api.tr("ui.label_3", "Section 3"))
-        self.ui.label_4.setText(self.api.tr("ui.label_4", "Section 4"))
-        self.ui.format_group_1_start_char.setPlaceholderText(blank)
-        self.ui.format_group_1_sep_char.setPlaceholderText(blank)
-        self.ui.format_group_1_end_char.setText(self.api.tr("ui.format_group_1_end_char", " "))
-        self.ui.format_group_1_end_char.setPlaceholderText(blank)
-        self.ui.label_5.setText(self.api.tr("ui.label_5", "Start Chars"))
-        self.ui.label_6.setText(self.api.tr("ui.label_6", "Sep Chars"))
-        self.ui.label_7.setText(self.api.tr("ui.label_7", "End Chars"))
-        self.ui.format_group_2_start_char.setText(self.api.tr("ui.format_group_2_start_char", ", "))
-        self.ui.format_group_2_start_char.setPlaceholderText(blank)
-        self.ui.format_group_3_start_char.setText(self.api.tr("ui.format_group_3_start_char", " ("))
-        self.ui.format_group_3_start_char.setPlaceholderText(blank)
-        self.ui.format_group_4_start_char.setText(self.api.tr("ui.format_group_4_start_char", " ("))
-        self.ui.format_group_4_start_char.setPlaceholderText(blank)
-        self.ui.format_group_2_sep_char.setPlaceholderText(blank)
-        self.ui.format_group_3_sep_char.setPlaceholderText(blank)
-        self.ui.format_group_4_sep_char.setPlaceholderText(blank)
-        self.ui.format_group_2_end_char.setPlaceholderText(blank)
-        self.ui.format_group_3_end_char.setText(self.api.tr("ui.format_group_3_end_char", ")"))
-        self.ui.format_group_3_end_char.setPlaceholderText(blank)
-        self.ui.format_group_4_end_char.setText(self.api.tr("ui.format_group_4_end_char", ")"))
-        self.ui.format_group_4_end_char.setPlaceholderText(blank)
-        self.ui.gb_examples.setTitle(self.api.tr("ui.gb_examples", "Examples"))
 
     def _add_connections(self):
         self.ui.additional_rb_1.clicked.connect(self.update_examples)
@@ -272,9 +175,6 @@ class FormatPerformerTagsOptionsPage(OptionsPage):
         self.ui.format_group_4_end_char.editingFinished.connect(self.update_examples)
 
     def load(self):
-        # Enable external link
-        self.ui.format_description.setOpenExternalLinks(True)
-
         # Settings for Keyword: additional
         temp = self.api.plugin_config["format_group_additional"]
         if temp > 3:
