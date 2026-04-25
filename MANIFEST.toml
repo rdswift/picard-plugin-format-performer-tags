@@ -11,3 +11,4 @@ long_description = """
 This plugin provides options with respect to the formatting of performer tags. The format of
 the resulting tags can be customized by the settings in the options page.
 """
+report_bugs_to = "https://github.com/rdswift/picard-plugin-format-performer-tags/issues"
