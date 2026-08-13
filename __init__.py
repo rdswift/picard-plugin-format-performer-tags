@@ -20,6 +20,7 @@
 
 import re
 
+from picard.debug_opts import DebugOpt
 from picard.plugin3.api import (
     Metadata,
     OptionsPage,
@@ -65,9 +66,9 @@ class FormatPerformerTags:
             subkey = ''
         else:
             mainkey, subkey = key.split(':', 1)
-        self.api.logger.debug("%s: Removing key: '%s'", "Format Performer Tags", key,)
+        self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: Removing key: '%s'", "Format Performer Tags", key,)
         metadata.delete(key)
-        self.api.logger.debug("%s: Formatting Performer [%s: %s]", "Format Performer Tags", subkey, values,)
+        self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: Formatting Performer [%s: %s]", "Format Performer Tags", subkey, values,)
         if not subkey:
             instruments = []
         else:
@@ -115,12 +116,12 @@ class FormatPerformerTags:
                             + group_separator.join(temp_group) \
                             + settings["format_group_{0}_end_char".format(group_number)]
                 newkey = ('%s:%s%s%s%s' % (mainkey, display_group[1], instrument_key, display_group[2], display_group[3],))
-                self.api.logger.debug("%s: newkey: %s", "Format Performer Tags", newkey,)
+                self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: newkey: %s", "Format Performer Tags", newkey,)
                 for value in values:
                     metadata.add_unique(newkey, (value + display_group[4]))
         else:
             newkey = '%s:' % (mainkey,)
-            self.api.logger.debug("%s: newkey: %s", "Format Performer Tags", newkey,)
+            self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: newkey: %s", "Format Performer Tags", newkey,)
             for value in values:
                 metadata.add_unique(newkey, value)
 
