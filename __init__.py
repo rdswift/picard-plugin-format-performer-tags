@@ -51,6 +51,17 @@ class FormatPerformerTags:
     def __init__(self, api: PluginApi):
         self.api = api
 
+    def _debug_logger(self, text: str) -> None:
+        """Debug logging helper to use `debug_if()` if available.
+
+        Args:
+            text (str): Message to log.
+        """
+        if hasattr(self.api.logger, 'debug_if'):
+            self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, text)
+        else:
+            self.api.logger.debug(text)
+
     def get_word_dict(self, settings):
         word_dict = {}
         for word in WORD_LIST:
@@ -63,9 +74,9 @@ class FormatPerformerTags:
             subkey = ''
         else:
             mainkey, subkey = key.split(':', 1)
-        self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: Removing key: '%s'", "Format Performer Tags", key,)
+        self._debug_logger(f"Format Performer Tags: Removing key: '{key}'")
         metadata.delete(key)
-        self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: Formatting Performer [%s: %s]", "Format Performer Tags", subkey, values,)
+        self._debug_logger(f"Format Performer Tags: Formatting Performer [{subkey}: {values}]")
         if not subkey:
             instruments = []
         else:
@@ -113,12 +124,12 @@ class FormatPerformerTags:
                             + group_separator.join(temp_group) \
                             + settings["format_group_{0}_end_char".format(group_number)]
                 newkey = ('%s:%s%s%s%s' % (mainkey, display_group[1], instrument_key, display_group[2], display_group[3],))
-                self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: newkey: %s", "Format Performer Tags", newkey,)
+                self._debug_logger(f"Format Performer Tags: newkey: {newkey}")
                 for value in values:
                     metadata.add_unique(newkey, (value + display_group[4]))
         else:
             newkey = '%s:' % (mainkey,)
-            self.api.logger.debug_if(DebugOpt.PLUGIN_DEVELOPMENT, "%s: newkey: %s", "Format Performer Tags", newkey,)
+            self._debug_logger(f"Format Performer Tags: newkey: {newkey}")
             for value in values:
                 metadata.add_unique(newkey, value)
 
