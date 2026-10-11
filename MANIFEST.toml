@@ -12,3 +12,15 @@ This plugin provides options with respect to the formatting of performer tags. T
 the resulting tags can be customized by the settings in the options page.
 """
 report_bugs_to = "https://github.com/rdswift/picard-plugin-format-performer-tags/issues"
+
+[name_i18n]
+fr = "Format des balises Performer"
+zh_CN = "格式化表演者标签"
+
+[description_i18n]
+fr = "Ce plugin offre des options relatives au formatage des balises d'interprète."
+zh_CN = "此插件提供有关表演者标签格式的选项。"
+
+[long_description_i18n]
+fr = "Ce plugin propose des options relatives au formatage des balises d'interprète. Le format des balises générées peut être personnalisé à l'aide des paramètres disponibles dans la page d'options."
+zh_CN = "此插件提供有关表演者标签格式的选项。 结果的标签格式可以通过选项页面的设置进行自定义。"
